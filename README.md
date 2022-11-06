@@ -1,7 +1,7 @@
 ### 10-11 практические проекты обучения студентов от Яндекс.Практикум (5 курс).
 
-[![LOGO](src/images/logo-black.svg)](https://kolob-ok.github.io/mesto/ "Проект Яндекса")
-# "Место" (версия на React)
+[![LOGO](src/images/logo-black.svg)](https://kolob-ok.github.io/mesto/ "Проект Яндекса") (версия с авторизацией на React)
+
 
 __________
 

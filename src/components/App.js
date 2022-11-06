@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Header from './Header';
 import Main from './Main';
@@ -14,6 +15,8 @@ import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/api';
 
 function App() {
+    // Задаем переменную состояния аутентификации
+    const [loggedIn, setLoggedIn] = useState(true);
     // Задаем переменную состояния попапов
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -175,18 +178,34 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
                 <Header/>
-                <Main
-                    cards={cards}
-                    onEditAvatar={handleEditAvatarClick}
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onCardClick={handleCardClick}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                />
+
+                <Switch>
+                    <Route path="/" >
+                        {loggedIn ? (
+                            <Main
+                                cards={cards}
+                                onEditAvatar={handleEditAvatarClick}
+                                onEditProfile={handleEditProfileClick}
+                                onAddPlace={handleAddPlaceClick}
+                                onCardClick={handleCardClick}
+                                onCardLike={handleCardLike}
+                                onCardDelete={handleCardDelete}
+                            />
+                        ) : (
+                            <Redirect to="/sign-in"/>
+                        )}
+                    </Route>
+
+                    <Route path="/sign-up">
+                    </Route>
+
+                    <Route path="/sign-in">
+                    </Route>
+                </Switch>
+
                 <Footer/>
 
-                /попап добавления карточки
+                {/*попап добавления карточки*/}
                 <AddPlacePopup
                     isOpen={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
@@ -194,7 +213,7 @@ function App() {
                     onLoading={isLoading}
                 />
 
-                /попап редактирования профиля-->
+                {/*попап редактирования профиля-->*/}
                 <EditProfilePopup
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
@@ -202,7 +221,7 @@ function App() {
                     onLoading={isLoading}
                 />
 
-                /попап обновления аватара профиля-->
+                {/*попап обновления аватара профиля-->*/}
                 <EditAvatarPopup
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
@@ -210,7 +229,7 @@ function App() {
                     onLoading={isLoading}
                 />
 
-                /попап подтверждения удаления карточки-->
+                {/*попап подтверждения удаления карточки-->*/}
                 <DelConfirmPopup
                     card={selectedForDelCard}
                     onClose={closeAllPopups}
@@ -218,7 +237,7 @@ function App() {
                     onLoading={isLoading}
                 />
 
-                /попап просмотра фото-->
+                {/*попап просмотра фото-->*/}
                 <ImagePopup
                     card={selectedCard}
                     onClose={closeAllPopups}
