@@ -9,6 +9,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DelConfirmPopup from './DelConfirmPopup';
+import Login from './Login';
 
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
@@ -16,7 +17,7 @@ import api from '../utils/api';
 
 function App() {
     // Задаем переменную состояния аутентификации
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
     // Задаем переменную состояния попапов
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -179,7 +180,7 @@ function App() {
             <div className="page">
                 <Header/>
 
-                <Switch>
+                {/*<Switch>*/}
                     <Route path="/" >
                         {loggedIn ? (
                             <Main
@@ -196,12 +197,14 @@ function App() {
                         )}
                     </Route>
 
+                    <Route path="/sign-in">
+                        <Login />
+                    </Route>
+
                     <Route path="/sign-up">
                     </Route>
 
-                    <Route path="/sign-in">
-                    </Route>
-                </Switch>
+                {/*</Switch>*/}
 
                 <Footer/>
 
