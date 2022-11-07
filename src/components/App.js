@@ -9,6 +9,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DelConfirmPopup from './DelConfirmPopup';
+import InfoTooltip from './InfoTooltip';
 import Login from './Login';
 import Register from './Register';
 
@@ -22,6 +23,7 @@ function App() {
     // Задаем переменную состояния попапов
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     // Задаем выбранную для просмотра карточку
     const [selectedCard, setSelectedCard] = useState({});
@@ -80,6 +82,7 @@ function App() {
         setIsEditAvatarPopupOpen(false);
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
+        setIsInfoTooltipOpen(false)
         setSelectedCard({});
         setSelectedForDelCard(false);
     }
@@ -194,7 +197,7 @@ function App() {
                                 onCardDelete={handleCardDelete}
                             />
                         ) : (
-                            <Redirect to="/sign-up"/>
+                            <Redirect to="/sign-in"/>
                         )}
                     </Route>
 
@@ -246,6 +249,14 @@ function App() {
                 <ImagePopup
                     card={selectedCard}
                     onClose={closeAllPopups}
+                />
+
+                {/*попап успеха/неудачи*/}
+                <InfoTooltip
+                    isOpen={isInfoTooltipOpen}
+                    onClose={closeAllPopups}
+                    name="auth"
+                    onLogin={loggedIn}
                 />
             </div>
         </CurrentUserContext.Provider>

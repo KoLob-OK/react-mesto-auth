@@ -49,6 +49,9 @@
 @import url('./blocks/popup/__figure/popup__figure.css');
 @import url('./blocks/popup/__image/popup__image.css');
 @import url('./blocks/popup/__caption/popup__caption.css');
+@import url('./blocks/popup/__auth/popup__auth.css');
+@import url('./blocks/popup/__auth-icon/popup__auth-icon.css');
+@import url('./blocks/popup/__auth-text/popup__auth-text.css');
 
 @import url('./blocks/form/form.css');
 @import url('./blocks/form/__input/form__input.css');
