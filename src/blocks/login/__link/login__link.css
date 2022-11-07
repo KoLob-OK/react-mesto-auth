@@ -1,4 +1,6 @@
 .login__link {
+    text-decoration: none;
+    padding-left: 5px;
     color: #FFF;
     transition: opacity .3s;
 }

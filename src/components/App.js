@@ -10,6 +10,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DelConfirmPopup from './DelConfirmPopup';
 import Login from './Login';
+import Register from './Register';
 
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
@@ -193,7 +194,7 @@ function App() {
                                 onCardDelete={handleCardDelete}
                             />
                         ) : (
-                            <Redirect to="/sign-in"/>
+                            <Redirect to="/sign-up"/>
                         )}
                     </Route>
 
@@ -202,6 +203,7 @@ function App() {
                     </Route>
 
                     <Route path="/sign-up">
+                        <Register />
                     </Route>
 
                 {/*</Switch>*/}
