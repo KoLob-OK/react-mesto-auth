@@ -12,6 +12,7 @@ import DelConfirmPopup from './DelConfirmPopup';
 import InfoTooltip from './InfoTooltip';
 import Login from './Login';
 import Register from './Register';
+import ProtectedRoute from './ProtectedRoute';
 
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
@@ -185,21 +186,22 @@ function App() {
                 <Header/>
 
                 {/*<Switch>*/}
-                    <Route path="/" >
-                        {loggedIn ? (
-                            <Main
-                                cards={cards}
-                                onEditAvatar={handleEditAvatarClick}
-                                onEditProfile={handleEditProfileClick}
-                                onAddPlace={handleAddPlaceClick}
-                                onCardClick={handleCardClick}
-                                onCardLike={handleCardLike}
-                                onCardDelete={handleCardDelete}
-                            />
-                        ) : (
-                            <Redirect to="/sign-in"/>
-                        )}
-                    </Route>
+                    {loggedIn ? (
+                        <ProtectedRoute
+                            path="/"
+                            loggedIn={loggedIn}
+                            component={Main}
+                            cards={cards}
+                            onEditAvatar={handleEditAvatarClick}
+                            onEditProfile={handleEditProfileClick}
+                            onAddPlace={handleAddPlaceClick}
+                            onCardClick={handleCardClick}
+                            onCardLike={handleCardLike}
+                            onCardDelete={handleCardDelete}
+                        />
+                    ) : (
+                        <Redirect to="/sign-in"/>
+                    )}
 
                     <Route path="/sign-in">
                         <Login />
