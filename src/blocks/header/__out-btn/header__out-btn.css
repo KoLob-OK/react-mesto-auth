@@ -1,0 +1,19 @@
+.header__out-btn {
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: right;
+    color: #FFF;
+    padding-top: 6px;
+    transition: opacity .3s linear;
+    cursor: pointer;
+    background: none;
+    border: none;
+    align-self: start;
+}
+
+.header__out-btn:hover {
+    opacity: 0.6;
+}
