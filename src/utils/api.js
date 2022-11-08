@@ -1,4 +1,4 @@
-export class Api {
+class Api {
     constructor(options) {
         // baseUrl - базовая часть url-адреса запроса
         this._baseUrl = options.baseUrl;
@@ -41,16 +41,13 @@ export class Api {
             });
     }
 
-    // Метод добавления новой карточки card (имеет 2 параметра: name-имя, link-ссылка)
+    // Метод добавления новой карточки card (объект имеет 2 параметра: name-имя, link-ссылка)
     // возвращает промис {Promise} - объект новой карточки
     addCard({ name, link }) {
         return fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             headers: this._headers,
-            body: JSON.stringify({
-                name,
-                link
-            })
+            body: JSON.stringify({ name, link })
         })
             .then(res => {
                 return this._checkResponse(res)
@@ -114,8 +111,7 @@ export class Api {
 }
 
 /*++++++++++++++++++++API+++++++++++++++++++++++*/
-const
-    api = new Api({
+const api = new Api({
         baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-50',
         headers: {
             authorization: '3da86922-f76f-47f7-81bc-c1b3b90197e4',

@@ -24,7 +24,7 @@ function App() {
     // Задаем переменную состояния попапов
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(true);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     // Задаем выбранную для просмотра карточку
     const [selectedCard, setSelectedCard] = useState({});

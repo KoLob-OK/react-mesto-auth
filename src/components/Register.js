@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import auth from '../utils/auth';
+
 function Register() {
     return (
         <div className="login content__login">
