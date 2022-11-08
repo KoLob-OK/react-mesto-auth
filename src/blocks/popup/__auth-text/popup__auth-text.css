@@ -9,3 +9,11 @@
     text-align: center;
     color: #000;
 }
+
+@media screen and (max-width: 568px) {
+    .popup__auth-text {
+        font-size: 20px;
+        line-height: 24px;
+        padding: 40px 0 25px;
+    }
+}

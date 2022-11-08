@@ -11,6 +11,7 @@ function Header() {
                  src={headerLogo}
                  alt="Логотип с картой России"
             />
+            <button className="header__burger-menu" />
             {location.pathname === "/sign-in" ? (
                 <Link className="header__link" to="/sign-up">
                     Регистрация
