@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useHistory } from 'react-router-dom';
 
 import Header from './Header';
 import Main from './Main';
@@ -17,6 +17,7 @@ import ProtectedRoute from './ProtectedRoute';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 import api from '../utils/api';
+import auth from '../utils/auth';
 
 function App() {
     // Задаем переменную состояния аутентификации
@@ -24,7 +25,7 @@ function App() {
     // Задаем переменную состояния попапов
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(true);
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     // Задаем выбранную для просмотра карточку
     const [selectedCard, setSelectedCard] = useState({});
@@ -36,6 +37,7 @@ function App() {
     const [cards, setCards] = useState([]);
     // Загружается
     const [isLoading, setIsLoading] = useState(false);
+    const history = useHistory();
 
     // Используем эффект для получения массива с начальными карточками и данных пользователя
     useEffect(() => {
@@ -180,6 +182,21 @@ function App() {
             });
     }
 
+    function onRegister(data) {
+        return auth
+            .register(data)
+            .then(() => {
+                setLoggedIn(true);
+                setIsInfoTooltipOpen(true);
+                history.push("/");
+            })
+            .catch(err => {
+                setLoggedIn(false);
+                setIsInfoTooltipOpen(true);
+                console.log(`Произошла ошибка при регистрации: ${err}`);
+            })
+    }
+
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
@@ -208,7 +225,7 @@ function App() {
                     </Route>
 
                     <Route path="/sign-up">
-                        <Register />
+                        <Register onRegister={onRegister} />
                     </Route>
 
                 {/*</Switch>*/}
