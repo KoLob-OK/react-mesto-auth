@@ -230,7 +230,7 @@ function App() {
         if (loggedIn) {
             history.push("/");
         }
-    }, [loggedIn]);
+    }, [loggedIn, history]);
 
     function onSignOut() {
         setLoggedIn(false);
