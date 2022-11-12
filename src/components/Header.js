@@ -2,7 +2,7 @@ import {Link, useLocation} from 'react-router-dom';
 
 import headerLogo from '../images/logo-place.svg';
 
-function Header() {
+function Header({ loggedIn, onSignOut }) {
     let location = useLocation();
 
     return (
@@ -22,9 +22,9 @@ function Header() {
                 </Link>
             ) : location.pathname === "/" ? (
                 <div className="header__menu">
-                    <p className="header__email">test@testmail.ru</p>
+                    <p className="header__email">{loggedIn}</p>
                     <button className="header__out-btn"
-                            onClick=''>
+                            onClick={onSignOut}>
                         Выйти
                     </button>
                 </div>

@@ -10,7 +10,6 @@
     .header__burger-menu {
         width: 24px;
         height: 24px;
-        display: block;
         background: url(../../../images/burger-menu.svg);
         background-position: 100%;
         background-repeat: no-repeat;

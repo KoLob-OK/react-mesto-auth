@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Route, Redirect, useHistory } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
 
 import Header from './Header';
 import Main from './Main';
@@ -33,6 +33,8 @@ function App() {
     const [selectedForDelCard, setSelectedForDelCard] = useState(false);
     // Текущий пользователь
     const [currentUser, setCurrentUser] = useState({});
+    // Авторизованный пользователь
+    const [email, setEmail] = useState("");
     // Массив карточек
     const [cards, setCards] = useState([]);
     // Загружается
@@ -186,49 +188,90 @@ function App() {
         return auth
             .register(data)
             .then(() => {
-                setLoggedIn(true);
                 setIsInfoTooltipOpen(true);
                 history.push("/");
             })
             .catch(err => {
-                setLoggedIn(false);
                 setIsInfoTooltipOpen(true);
                 console.log(`Произошла ошибка при регистрации: ${err}`);
             })
     }
 
+    function onLogin(data) {
+        console.log(data);
+        return auth
+            .authorize(data)
+            .then(res => {
+                setLoggedIn(true);
+                localStorage.setItem("jwt", res.token);
+            })
+            .catch(err => {
+                console.log(`Произошла ошибка при авторизации: ${err}`);
+            })
+    }
+
+    function handleTokenCheck() {
+        if (localStorage.getItem('jwt')) {
+            const jwt = localStorage.getItem('jwt');
+            auth
+                .checkToken(jwt)
+                .then(res => {
+                    setEmail(res.data.email);
+                    setLoggedIn(true);
+                })
+                .catch(err => {
+                    console.log(`Произошла ошибка при проверке токена: ${err}`);
+                })
+        }
+    }
+
+    useEffect(() => {
+        handleTokenCheck();
+        if (loggedIn) {
+            history.push("/");
+        }
+    }, [loggedIn]);
+
+    function onSignOut() {
+        setLoggedIn(false);
+        localStorage.removeItem("jwt");
+        history.push("/sign-in");
+    }
+
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
-                <Header/>
+                <Header loggedIn={email}
+                        onSignOut={onSignOut}
+                />
 
-                {/*<Switch>*/}
+                <Switch>
+                    <Route path="/sign-in">
+                        <Login onLogin={onLogin}
+                        />
+                    </Route>
+
+                    <Route path="/sign-up">
+                        <Register onRegister={onRegister}/>
+                    </Route>
+
                     {loggedIn ? (
-                        <ProtectedRoute
-                            path="/"
-                            loggedIn={loggedIn}
-                            component={Main}
-                            cards={cards}
-                            onEditAvatar={handleEditAvatarClick}
-                            onEditProfile={handleEditProfileClick}
-                            onAddPlace={handleAddPlaceClick}
-                            onCardClick={handleCardClick}
-                            onCardLike={handleCardLike}
-                            onCardDelete={handleCardDelete}
+                        <ProtectedRoute exact
+                                        path="/"
+                                        loggedIn={loggedIn}
+                                        component={Main}
+                                        cards={cards}
+                                        onEditAvatar={handleEditAvatarClick}
+                                        onEditProfile={handleEditProfileClick}
+                                        onAddPlace={handleAddPlaceClick}
+                                        onCardClick={handleCardClick}
+                                        onCardLike={handleCardLike}
+                                        onCardDelete={handleCardDelete}
                         />
                     ) : (
                         <Redirect to="/sign-in"/>
                     )}
-
-                    <Route path="/sign-in">
-                        <Login />
-                    </Route>
-
-                    <Route path="/sign-up">
-                        <Register onRegister={onRegister} />
-                    </Route>
-
-                {/*</Switch>*/}
+                </Switch>
 
                 <Footer/>
 
