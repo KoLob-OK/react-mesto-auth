@@ -1,38 +1,29 @@
 .header {
-  width: calc(100% - 2*200px);
+  width: calc(100% - 2 * 200px);
   height: 74px;
-  border-bottom: 1px solid rgba(84, 84, 84, .7);
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
   display: flex;
   justify-content: space-between;
-
+  position: relative;
 }
-
-/*.header::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: #545454;
-  opacity: .7;
-}*/
 
 @media screen and (max-width: 1140px) {
   .header {
-    width: calc(100% - 2*100px);
+    width: calc(100% - 2 * 100px);
   }
 }
 
 @media screen and (max-width: 984px) {
   .header {
-    width: calc(100% - 2*50px);
+    width: calc(100% - 2 * 50px);
   }
 }
 
 @media screen and (max-width: 568px) {
   .header {
-    width: calc(100% - 2*30px);
-    height: 56px;
+    width: 100%;
+    margin: 0;
+    height: 83px;
+    border: 0;
   }
 }

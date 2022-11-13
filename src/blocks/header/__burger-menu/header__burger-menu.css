@@ -8,16 +8,20 @@
 
 @media screen and (max-width: 568px) {
     .header__burger-menu {
-        width: 24px;
-        height: 24px;
-        background: url(../../../images/burger-menu.svg);
+        display: block;
+        position: relative;
+        background: url("../../../images/burger-menu.svg");
         background-position: 100%;
         background-repeat: no-repeat;
+        background-size: 24px;
+        width: 24px;
+        height: 24px;
         border: none;
-        padding: 0;
         box-sizing: border-box;
+        padding: 0;
         transition: opacity .3s linear;
         cursor: pointer;
-        align-self: baseline;
+        right: 0;
+        align-self: auto;
     }
 }

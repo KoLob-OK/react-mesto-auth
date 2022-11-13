@@ -10,9 +10,13 @@
 @import url('./blocks/content/__elements/content__elements.css');
 
 @import url('./blocks/header/header.css');
+@import url('./blocks/header/_type/header_type_mobile.css'); /*модификатор*/
 @import url('./blocks/header/__logo/header__logo.css');
 @import url('./blocks/header/__menu/header__menu.css');
+@import url('./blocks/header/__menu-mobile-container/header__menu-mobile-container.css');
+@import url('./blocks/header/__menu-mobile/header__menu-mobile.css');
 @import url('./blocks/header/__burger-menu/header__burger-menu.css');
+@import url('blocks/header/__burger-menu/_opened/header__burger-menu-btn_opened.css'); /*модификатор*/
 @import url('./blocks/header/__email/header__email.css');
 @import url('./blocks/header/__out-btn/header__out-btn.css');
 @import url('./blocks/header/__link/header__link.css');
