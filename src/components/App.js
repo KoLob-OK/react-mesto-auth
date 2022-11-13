@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 
 import Header from "./Header";
 import Main from "./Main";
@@ -42,30 +48,37 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   // Задает переменную состояния мобильного меню
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const history = useHistory();
+  const location = useLocation();
+
+  const isAuthPage =
+    location.pathname === "/sign-in" || location.pathname === "/sign-up";
 
   // Используем эффект для получения массива с начальными карточками и данных пользователя
   useEffect(() => {
-    api
-      .getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards);
-      })
-      .catch((err) => {
-        console.log(`Произошла ошибка при загрузке картинок: ${err}`);
-      });
+    if (!isAuthPage) {
+      api
+        .getInitialCards()
+        .then((initialCards) => {
+          setCards(initialCards);
+        })
+        .catch((err) => {
+          console.log(`Произошла ошибка при загрузке картинок: ${err}`);
+        });
 
-    api
-      .getUserData()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        console.log(
-          `Произошла ошибка при загрузке данных пользователя: ${err}`
-        );
-      });
-  }, []);
+      api
+        .getUserData()
+        .then((userData) => {
+          setCurrentUser(userData);
+        })
+        .catch((err) => {
+          console.log(
+            `Произошла ошибка при загрузке данных пользователя: ${err}`
+          );
+        });
+    }
+  }, [location, isAuthPage]);
 
   // Обработчик клика аватара (открывание EditAvatarPopup)
   function handleEditAvatarClick() {
@@ -245,6 +258,7 @@ function App() {
 
   function onSignOut() {
     setLoggedIn(false);
+    setEmail("");
     setIsMobileMenuOpen(false);
     localStorage.removeItem("jwt");
     history.push("/sign-in");
@@ -253,6 +267,28 @@ function App() {
   function handleChangeMenu() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   }
+
+  const openedPopup =
+      isInfoTooltipOpen ||
+      isEditAvatarPopupOpen ||
+      isEditProfilePopupOpen ||
+      isAddPlacePopupOpen ||
+      selectedCard ||
+      selectedForDelCard;
+
+  useEffect(() => {
+    function closePopupByEscapePress(e) {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+    if (openedPopup) {
+      document.addEventListener("keydown", closePopupByEscapePress);
+      return () => {
+        document.removeEventListener("keydown", closePopupByEscapePress);
+      };
+    }
+  }, [openedPopup]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

@@ -2,8 +2,12 @@ import successIcon from '../images/success.svg';
 import failIcon from '../images/fail.svg';
 
 function InfoTooltip({ name, isOpen, onClose, onLogin }) {
+    function closePopupByOverlayClick(e) {
+        if (e.target === e.currentTarget) onClose(e);
+    }
     return (
-        <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}>
+        <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}
+             onClick={closePopupByOverlayClick}>
             <div className="popup__container">
                 <button type="button"
                         className="popup__close"

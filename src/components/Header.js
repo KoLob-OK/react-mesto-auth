@@ -10,6 +10,33 @@ function Header(props) {
 
   const { isOpen, loggedIn, onSignOut, setIsOpen, children } = props;
 
+  const authLinks = () => {
+    if (location.pathname === "/sign-in") {
+      return (
+        <Link className="header__link" to="/sign-up">
+          Регистрация
+        </Link>
+      );
+    }
+
+    if (location.pathname === "/sign-up") {
+      return (
+        <Link className="header__link" to="sign-in">
+          Войти
+        </Link>
+      );
+    }
+
+    return (
+      <div className="header__menu">
+        <p className="header__email">{loggedIn}</p>
+        <button className="header__out-btn" onClick={onSignOut}>
+          Выйти
+        </button>
+      </div>
+    );
+  };
+
   return (
     <header className={isOpen ? "header_type_mobile" : "header page__header"}>
       {children}
@@ -19,31 +46,17 @@ function Header(props) {
           src={headerLogo}
           alt="Логотип с картой России"
         />
-        <button
-          className={`header__burger-menu ${
-            isOpen && "header__burger-menu-btn_opened"
-          }`}
-          onClick={() => setIsOpen()}
-        />
+        {isMobile && loggedIn && (
+          <button
+            className={`header__burger-menu ${
+              isOpen && "header__burger-menu-btn_opened"
+            }`}
+            onClick={() => setIsOpen()}
+          />
+        )}
+        {isMobile && authLinks()}
       </div>
-      {location.pathname === "/sign-in" ? (
-        <Link className="header__link" to="/sign-up">
-          Регистрация
-        </Link>
-      ) : location.pathname === "/sign-up" ? (
-        <Link className="header__link" to="sign-in">
-          Войти
-        </Link>
-      ) : location.pathname === "/" ? (
-        <div className="header__menu">
-          <p className="header__email">{loggedIn}</p>
-          <button className="header__out-btn" onClick={onSignOut}>
-            Выйти
-          </button>
-        </div>
-      ) : (
-        <></>
-      )}
+      {!isMobile && authLinks()}
     </header>
   );
 }
