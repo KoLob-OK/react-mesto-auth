@@ -1,17 +1,12 @@
-function ImagePopup({ card, onClose }) {
-    function closePopupByOverlayClick(e) {
-        if (e.target === e.currentTarget) onClose(e);
-    }
+import Popup from './Popup';
 
+function ImagePopup({card, isOpen, onClose, name}) {
     return (
-        <div className={`popup popup_type_expand-image ${card.link ? "popup_opened" : ""}`}
-             onClick={closePopupByOverlayClick}>
-            <div className="popup__image-container">
-                <button type="button"
-                        className="popup__close"
-                        aria-label="Закрыть окно"
-                        onClick={onClose}>
-                </button>
+        <Popup name={name}
+               onClose={onClose}
+               isOpen={isOpen}
+               card={card}
+               className={"popup__image-container"}>
                 <figure className="popup__figure">
                     <img className="popup__image"
                          src={card.link}
@@ -19,8 +14,7 @@ function ImagePopup({ card, onClose }) {
                     />
                     <figcaption className="popup__caption">{card.name}</figcaption>
                 </figure>
-            </div>
-        </div>
+        </Popup>
     )
 }
 

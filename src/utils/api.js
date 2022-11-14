@@ -43,11 +43,14 @@ class Api {
 
     // Метод добавления новой карточки card (объект имеет 2 параметра: name-имя, link-ссылка)
     // возвращает промис {Promise} - объект новой карточки
-    addCard({ name, link }) {
+    addCard({ title, link }) {
         return fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             headers: this._headers,
-            body: JSON.stringify({ name, link })
+            body: JSON.stringify({
+                name: title,
+                link: link
+            })
         })
             .then(res => {
                 return this._checkResponse(res)
@@ -80,13 +83,13 @@ class Api {
 
     // Метод изменения данных пользователя data (имеет 2 параметра: username-имя, job-профессия)
     // возвращает промис {Promise} - новый объект пользователя
-    changeUserData({ username, job }) {
+    changeUserData({ name, about }) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
-                name: username,
-                about: job
+                name: name,
+                about: about
             })
         })
             .then(res => {

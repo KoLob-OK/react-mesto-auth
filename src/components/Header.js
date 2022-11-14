@@ -8,7 +8,7 @@ function Header(props) {
 
   const isMobile = useIsMobile();
 
-  const { isOpen, loggedIn, onSignOut, setIsOpen, children } = props;
+  const { email, loggedIn, onSignOut, isOpen, setIsOpen, children } = props;
 
   const authLinks = () => {
     if (location.pathname === "/sign-in") {
@@ -29,7 +29,7 @@ function Header(props) {
 
     return (
       <div className="header__menu">
-        <p className="header__email">{loggedIn}</p>
+        <p className="header__email">{email}</p>
         <button className="header__out-btn" onClick={onSignOut}>
           Выйти
         </button>

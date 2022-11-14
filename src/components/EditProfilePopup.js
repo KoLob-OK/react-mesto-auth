@@ -1,6 +1,8 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 
 import PopupWithForm from './PopupWithForm';
+
+import useForm from '../hooks/useForm';
 
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
@@ -8,30 +10,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading }) {
     // Подписка на контекст
     const currentUser = useContext(CurrentUserContext);
 
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const { enteredValues, errors, handleChange, isFormValid, resetForm } = useForm();
 
-    //Сброс полей инпутов при открытии попапа (текущий пользователь)
     useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
-    }, [currentUser, isOpen]);
-
-    // После загрузки текущего пользователя из API его данные будут использованы в управляемых компонентах.
-    useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
-    }, [currentUser]);
-
-    // Обработчик имени
-    function handleNameChange(e) {
-        setName(e.target.value);
-    }
-
-    // Обработчик профессии
-    function handleDescriptionChange(e) {
-        setDescription(e.target.value);
-    }
+        currentUser ? resetForm(currentUser) : resetForm();
+    }, [resetForm, isOpen, currentUser]);
 
     // Обработчик сабмита формы
     function handleSubmit(e) {
@@ -39,10 +22,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading }) {
         e.preventDefault();
 
         // Передаём значения управляемых компонентов во внешний обработчик
-        onUpdateUser({
-            username: name,
-            job: description
-        });
+        onUpdateUser(enteredValues);
     }
 
     return (
@@ -56,37 +36,37 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading }) {
                 <input
                     className="form__input form__input_type_username"
                     type="text"
-                    name="username"
-                    id="username"
+                    name="name"
+                    id="name"
                     placeholder="Имя"
                     minLength="2"
                     maxLength="40"
-                    value={name ?? ''}
-                    onChange={handleNameChange}
+                    value={enteredValues.name || ''}
+                    onChange={handleChange}
                     required
                 />
                 <span id="username-error"
-                      className="form__input-error"
-                />
+                      className="form__input-error">{errors.name}</span>
+
 
                 <input
-                    className="form__input form__input_type_job"
+                    className="form__input form__input_type_about"
                     type="text"
-                    name="job"
-                    id="job"
+                    name="about"
+                    id="about"
                     placeholder="О себе"
                     minLength="2"
                     maxLength="200"
-                    value={description ?? ''}
-                    onChange={handleDescriptionChange}
+                    value={enteredValues.about ?? ''}
+                    onChange={handleChange}
                     required
                 />
-                <span id="job-error"
-                      className="form__input-error"
-                />
+                <span id="about-error"
+                      className="form__input-error">{errors.about}</span>
+
 
                 <button className="form__submit"
-                        type="submit">
+                        type="submit" disabled={!isFormValid}>
                     {onLoading ? "Сохранение..." : "Сохранить"}
                 </button>
 

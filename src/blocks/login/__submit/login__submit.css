@@ -21,6 +21,11 @@
     opacity: .85;
 }
 
+.login__submit:disabled {
+    background: #c6c6c6;
+    cursor: not-allowed;
+}
+
 @media (max-width: 568px) {
     .login__submit {
         margin-top: 173px;

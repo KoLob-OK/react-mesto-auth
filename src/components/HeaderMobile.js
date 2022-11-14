@@ -1,9 +1,9 @@
-function HeaderMobile({ loggedIn, onSignOut, isOpen, changeMenu }) {
+function HeaderMobile({ email, onSignOut, isOpen }) {
   return (
     <>
       {isOpen && (
         <div className="header__menu-mobile">
-          <p className="header__email">{loggedIn}</p>
+          <p className="header__email">{email}</p>
           <button onClick={onSignOut} className="header__out-btn">
             Выйти
           </button>
