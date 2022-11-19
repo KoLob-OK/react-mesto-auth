@@ -1,20 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
+import useForm from '../hooks/useForm';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, onLoading }) {
-    // Используем реф для получения прямого доступа к DOM-элементу инпута и его значению
-    const refAvatarInput = useRef();
+    // Используем хук useForm для создания объекта
+    const { enteredValues, errors, handleChange, isFormValid, resetForm } = useForm();
 
     //Сброс полей инпутов при открытии попапа
     useEffect(() => {
-        refAvatarInput.current.value = '';
-    }, [isOpen]);
+     resetForm()
+    }, []);
 
     // Обработчик сабмита формы
     function handleSubmit(e) {
         e.preventDefault();
         onUpdateAvatar({
-            avatar: refAvatarInput.current.value
+            avatar: enteredValues.avatar
         });
     }
 
@@ -27,19 +28,21 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, onLoading }) {
             onSubmit={handleSubmit}>
             <fieldset className="form__set">
                 <input
-                    className="form__input form__input_type_avatar"
+                    className="form form__input form__input_type_avatar"
                     type="url"
                     name="avatar"
                     id="avatar"
                     placeholder="Ссылка на картинку"
-                    ref={refAvatarInput}
+                    value={enteredValues.avatar}
+                    onChange={handleChange}
                     required
                 />
                 <span id="avatar-error"
-                      className="form__input-error"
-                />
+                      className="form__input-error">{errors.avatar}</span>
+
                 <button className="form__submit"
-                        type="submit">
+                        type="submit"
+                        disabled={!isFormValid}>
                     {onLoading ? "Сохранение..." : "Сохранить"}
                 </button>
             </fieldset>
